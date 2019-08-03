@@ -1,7 +1,8 @@
 import React from 'react';
 
-// import { Container } from './styles';
+import createRouter from './routes';
 
-export default function src() {
-  return <div />;
+export default function App() {
+  const Routes = createRouter();
+  return <Routes />;
 }

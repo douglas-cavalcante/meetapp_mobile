@@ -1,8 +1,12 @@
 import React from 'react';
-import { View } from 'react-native';
 
 import './config/ReactotronConfig';
+import App from './App';
 
-export default function src() {
-  return <View />;
+export default function Index() {
+  return (
+    <>
+      <App />
+    </>
+  );
 }
