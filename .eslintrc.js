@@ -19,6 +19,7 @@ module.exports = {
   plugins: ['react', 'prettier'],
   rules: {
     'import/no-unresolved': 'off',
+    'no-param-reassign': 'off',
     'prettier/prettier': 'error',
     'react/jsx-filename-extension': [
       'warn',
