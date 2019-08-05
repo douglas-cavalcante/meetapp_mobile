@@ -4,6 +4,7 @@ const INITIAL_STATE = {
   token: null,
   loading: false,
   signed: false,
+  newUserSuccess: false,
 };
 
 export default function auth(state = INITIAL_STATE, action) {
@@ -11,6 +12,11 @@ export default function auth(state = INITIAL_STATE, action) {
     switch (action.type) {
       case '@auth/SIGN_UP_REQUEST': {
         draft.loading = true;
+        break;
+      }
+      case '@auth/SIGN_UP_SUCCESS': {
+        draft.loading = false;
+        draft.newUserSuccess = true;
         break;
       }
       case '@auth/SIGN_IN_SUCCESS': {

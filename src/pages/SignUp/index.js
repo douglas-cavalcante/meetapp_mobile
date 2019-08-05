@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useRef, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Image } from 'react-native';
 import { signUpRequest } from '~/store/modules/auth/actions';
@@ -21,13 +21,21 @@ export default function SignUp({ navigation }) {
   const passwordRef = useRef();
 
   const loading = useSelector(state => state.auth.loading);
+  const newUserSuccess = useSelector(state => state.auth.newUserSuccess);
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
+  useEffect(() => {
+    setName('');
+    setEmail('');
+    setPassword('');
+  }, [newUserSuccess]);
+
   function handleSubmit() {
     dispatch(signUpRequest(name, email, password));
   }
+
   return (
     <Background>
       <Container>

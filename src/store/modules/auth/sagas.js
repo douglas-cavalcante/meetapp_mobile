@@ -2,12 +2,7 @@ import { takeLatest, call, put, all } from 'redux-saga/effects';
 import { Alert } from 'react-native';
 
 import api from '~/services/api';
-import {
-  signFailure,
-  signInSuccess,
-  signUpSuccess,
-  signInRequest,
-} from './actions';
+import { signFailure, signInSuccess, signUpSuccess } from './actions';
 
 export function* signIn({ payload }) {
   try {
@@ -37,7 +32,8 @@ export function* signUp({ payload }) {
     const { name, email, password } = payload;
     yield call(api.post, 'users', { name, email, password });
 
-    yield put(signInRequest(email, password));
+    Alert.alert('Sucesso', 'Cadastro realizado com sucesso');
+    yield put(signUpSuccess());
   } catch (error) {
     const { error: errorMessage } = error.response.data;
 
@@ -46,7 +42,18 @@ export function* signUp({ payload }) {
   }
 }
 
+export function setToken({ payload }) {
+  if (!payload) return;
+
+  const { token } = payload.auth;
+
+  if (token) {
+    api.defaults.headers.Authorization = `Bearer ${token}`;
+  }
+}
+
 export default all([
+  takeLatest('persist/REHYDRATE', setToken),
   takeLatest('@auth/SIGN_IN_REQUEST', signIn),
   takeLatest('@auth/SIGN_UP_REQUEST', signUp),
 ]);
