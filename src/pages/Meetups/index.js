@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Text } from 'react-native';
+import { Text, Alert } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import Header from '~/components/Header';
 
@@ -19,6 +19,18 @@ export default function Meetups() {
     loadMeetups();
   }, []);
 
+  async function handleSubscribe(id) {
+    try {
+      await api.post(`/meetups/${id}/subscriptions`);
+      Alert.alert('Sucesso', 'Seu lugar está guardado :)');
+    } catch (error) {
+      const { error: errorMessage } = error.response.data;
+      if (errorMessage) {
+        Alert.alert('Aviso', errorMessage);
+      }
+    }
+  }
+
   return (
     <Background>
       <Header />
@@ -31,8 +43,10 @@ export default function Meetups() {
 
       <List
         data={meetups}
-        keyExtractor={item => String(item)}
-        renderItem={({ item }) => <Card data={item} />}
+        keyExtractor={item => String(item.id)}
+        renderItem={({ item }) => (
+          <Card data={item} handleSubscribe={() => handleSubscribe(item.id)} />
+        )}
       />
     </Background>
   );
