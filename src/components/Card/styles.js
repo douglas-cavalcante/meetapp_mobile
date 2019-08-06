@@ -6,6 +6,7 @@ export const Container = styled.View`
   background-color: #fff;
   border-radius: 4px;
   height: 345px;
+  margin-top: 10px;
 `;
 
 export const Image = styled.Image`

@@ -13,7 +13,7 @@ import {
   SubscribeButton,
 } from './styles';
 
-export default function Card({ data }) {
+export default function Card({ data, handleSubscribe }) {
   return (
     <Container>
       <Image source={cap} resizeMode="cover" />
@@ -30,9 +30,10 @@ export default function Card({ data }) {
           </Info>
           <Info>
             <Icon name="person" size={14} color="#999" />
-            <InfoText>Organizador: {data.User.name}</InfoText>
           </Info>
-          <SubscribeButton>Realizar Inscrição</SubscribeButton>
+          <SubscribeButton onPress={handleSubscribe}>
+            Realizar Inscrição
+          </SubscribeButton>
         </Details>
       </Content>
     </Container>
