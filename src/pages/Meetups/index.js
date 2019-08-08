@@ -45,7 +45,11 @@ export default function Meetups() {
         data={meetups}
         keyExtractor={item => String(item.id)}
         renderItem={({ item }) => (
-          <Card data={item} handleSubscribe={() => handleSubscribe(item.id)} />
+          <Card
+            data={item}
+            handleClickButton={() => handleSubscribe(item.id)}
+            textButton="Realizar Inscrição"
+          />
         )}
       />
     </Background>
