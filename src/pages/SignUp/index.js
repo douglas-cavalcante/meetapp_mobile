@@ -1,6 +1,6 @@
 import React, { useRef, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Image } from 'react-native';
+import { Image, Keyboard } from 'react-native';
 import { signUpRequest } from '~/store/modules/auth/actions';
 import Background from '~/components/Background';
 
@@ -30,6 +30,7 @@ export default function SignUp({ navigation }) {
     setName('');
     setEmail('');
     setPassword('');
+    Keyboard.dismiss();
   }, [newUserSuccess]);
 
   function handleSubmit() {
