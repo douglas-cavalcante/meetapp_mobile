@@ -1,7 +1,8 @@
 import React from 'react';
 import Icon from 'react-native-vector-icons/MaterialIcons';
+import { format, parseISO } from 'date-fns';
+import pt from 'date-fns/locale/pt';
 
-import cap from '~/assets/cap.png';
 import {
   Container,
   Image,
@@ -13,16 +14,21 @@ import {
   SubscribeButton,
 } from './styles';
 
-export default function Card({ data, handleSubscribe }) {
+export default function Card({ data, handleClickButton, textButton }) {
   return (
     <Container>
-      <Image source={cap} resizeMode="cover" />
+      <Image source={{ uri: data.File.url }} resizeMode="cover" />
       <Content>
         <Title>{data.title}</Title>
         <Details>
           <Info>
             <Icon name="person" size={14} color="#999" />
-            <InfoText>20 de julho, ás 20h</InfoText>
+            <InfoText>
+              {' '}
+              {format(parseISO(data.date), " dd 'de' MMMM', às' H:mm'h'", {
+                locale: pt,
+              })}
+            </InfoText>
           </Info>
           <Info>
             <Icon name="person" size={14} color="#999" />
@@ -30,9 +36,10 @@ export default function Card({ data, handleSubscribe }) {
           </Info>
           <Info>
             <Icon name="person" size={14} color="#999" />
+            <InfoText>{data.User.name}</InfoText>
           </Info>
-          <SubscribeButton onPress={handleSubscribe}>
-            Realizar Inscrição
+          <SubscribeButton onPress={handleClickButton}>
+            {textButton}
           </SubscribeButton>
         </Details>
       </Content>
