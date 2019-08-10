@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { withNavigationFocus } from 'react-navigation';
 
 import { Alert } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
@@ -9,10 +10,10 @@ import Background from '~/components/Background';
 import Card from '~/components/Card';
 import api from '~/services/api';
 
-export default function Subscriptions() {
+function Subscriptions({ isFocused }) {
   const [meetups, setMeetups] = useState([]);
 
-  async function loadMeetups() {
+  async function loadSubscriptions() {
     const response = await api.get('subscriptions');
     const subscriptions = response.data.map(subscription => ({
       id: subscription.id,
@@ -26,16 +27,20 @@ export default function Subscriptions() {
       location: subscription.Meetup.location,
       title: subscription.Meetup.title,
     }));
+
     setMeetups(subscriptions);
   }
 
-  useEffect(() => loadMeetups(), []);
+  useEffect(() => {
+    loadSubscriptions();
+  }, [isFocused]);
 
   async function handleCancel(id) {
     try {
       await api.delete(`/subscriptions/${id}`);
-      loadMeetups();
+
       Alert.alert('Aviso', 'Incrição cancelada');
+      loadSubscriptions();
     } catch (error) {
       Alert.alert('Aviso', 'Houve um erro ao tentar cancelar.');
     }
@@ -66,3 +71,5 @@ Subscriptions.navigationOptions = {
     <Icon name="local-offer" size={20} color={tintColor} />
   ),
 };
+
+export default withNavigationFocus(Subscriptions);
