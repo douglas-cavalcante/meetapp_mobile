@@ -1,23 +1,29 @@
 import React, { useEffect, useState } from 'react';
-import { Text, Alert } from 'react-native';
+import { Alert } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
+
+import { format } from 'date-fns';
+
 import Header from '~/components/Header';
 
-import { Actions, Date, List } from './styles';
+import { List } from './styles';
 import Background from '~/components/Background';
 import Card from '~/components/Card';
 import api from '~/services/api';
+import SelectorDate from '~/components/SelectorDate';
 
 export default function Meetups() {
   const [meetups, setMeetups] = useState([]);
+  const [date, setDate] = useState(new Date());
 
   useEffect(() => {
     async function loadMeetups() {
-      const response = await api.get('meetups');
+      const dateFormatted = format(date, 'yyyy-MM-dd');
+      const response = await api.get(`meetups?date=${dateFormatted}`);
       setMeetups(response.data);
     }
     loadMeetups();
-  }, []);
+  }, [date]);
 
   async function handleSubscribe(id) {
     try {
@@ -34,13 +40,7 @@ export default function Meetups() {
   return (
     <Background>
       <Header />
-
-      <Actions>
-        <Icon name="chevron-left" size={36} color="#FFF" />
-        <Date>30 de maio</Date>
-        <Icon name="chevron-right" size={36} color="#FFF" />
-      </Actions>
-
+      <SelectorDate date={date} onChange={setDate} />
       <List
         data={meetups}
         keyExtractor={item => String(item.id)}
@@ -57,7 +57,6 @@ export default function Meetups() {
 }
 
 Meetups.navigationOptions = {
-  headerTitle: <Text>Ola</Text>,
   tabBarLabel: 'Meetups',
   tabBarIcon: ({ tintColor }) => (
     <Icon name="list" size={20} color={tintColor} />
