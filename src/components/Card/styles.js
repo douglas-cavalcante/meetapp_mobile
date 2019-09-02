@@ -2,16 +2,16 @@ import styled from 'styled-components/native';
 import Button from '~/components/Button';
 
 export const Container = styled.View`
-  flex: 1;
   background-color: #fff;
   border-radius: 4px;
-  height: 345px;
+  min-height: 345px;
   margin-top: 10px;
 `;
 
 export const Image = styled.Image`
   flex: 1;
   width: auto;
+  height: 100px;
   border-top-left-radius: 4px;
   border-top-right-radius: 4px;
   margin-bottom: 20px;

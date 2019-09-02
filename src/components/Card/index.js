@@ -17,14 +17,13 @@ import {
 export default function Card({ data, handleClickButton, textButton }) {
   return (
     <Container>
-      <Image source={{ uri: data.File.url }} resizeMode="cover" />
+      <Image source={{ uri: data.File.url }} resizeMode="stretch" />
       <Content>
-        <Title>{data.title}</Title>
+        <Title>{data.id}</Title>
         <Details>
           <Info>
             <Icon name="person" size={14} color="#999" />
             <InfoText>
-              {' '}
               {format(parseISO(data.date), " dd 'de' MMMM', às' H:mm'h'", {
                 locale: pt,
               })}
